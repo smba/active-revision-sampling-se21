@@ -4,40 +4,74 @@
 
 %%% Um einen Artikel auf deutsch zu schreiben, genügt es die Klasse ohne
 %%% Parameter zu laden.
-\documentclass[]{lni}
+\documentclass[english]{lni}
+
+\usepackage{blindtext}
+\usepackage{microtype}
+\usepackage{blindtext}
+\usepackage{wrapfig}
+
+\usepackage{xcolor}
 %%% To write an article in English, please use the option ``english'' in order
 %%% to get the correct hyphenation patterns and terms.
 %%% \documentclass[english]{class}
-%%
+
 \begin{document}
-%%% Mehrere Autoren werden durch \and voneinander getrennt.
-%%% Die Fußnote enthält die Adresse sowie eine E-Mail-Adresse.
-%%% Das optionale Argument (sofern angegeben) wird für die Kopfzeile verwendet.
-\title[Ein Kurztitel]{Ein sehr langer Titel über mehrere Zeilen mit sehr vielen
-Worten und noch mehr Buchstaben}
-%%%\subtitle{Untertitel / Subtitle} % if needed
-\author[Vorname1 Nachname1 \and Firstname2 Lastname2]
-{Vorname1 Nachname1\footnote{Universität, Abteilung, Straße, Postleitzahl Ort,
-Land \email{emailaddress@author1}} \and
-Firstname2 Lastname2\footnote{University, Department, Address, Country
-\email{emailaddress@author2}}}
+	
+\title[]{Accurate Modeling of Performance Histories for Evolving Software Systems}
+%\subtitle{-- Extended Abstract --} % if needed
+\author[Stefan Mühlbauer \and Sven Apel \and Norbert Siegmund]
+{Stefan Mühlbauer\footnote{Universität Leipzig, Institut für Informatik, Augustusplatz 10, 04109 Leipzig, \email{muehlbauer@informatik.uni-leipzig.de}} \and
+	Sven Apel\footnote{Universität des Saarlandes, Saarland Informatics Campus, Campus E1.1, 66123 Saarbrücken,
+		\email{apel@cs.uni-saarland.de}} \and
+	Norbert Siegmund\footnote{Universität Leipzig, Institut für Informatik, Augustusplatz 10, 04109 Leipzig, \email{norbert.siegmund@informatik.uni-leipzig.de}}}
 \startpage{11} % Beginn der Seitenzählung für diesen Beitrag / Start page
 \editor{Herausgeber et al.} % Names of Editors
 \booktitle{Name-der-Konferenz} % Name of book title
-\year{2017}
+\year{2020}
 %%%\lnidoi{18.18420/provided-by-editor-02} % if known
 \maketitle
 
+\begin{comment}
 \begin{abstract}
-This is a brief overview of the paper, which should be 70 to 150 words long and
-include the most relevant points. This has to be a single paragraph.
+This work has been originally published in the proceedings of the 34th IEEE/ACM International Conference on Automated Software Engineering (ASE 2019)~\cite{muehlbauerASE19}.\\
+Learning from the history of a software system’s performance behavior does not only help discovering and locating performance bugs, but also supports identifying evolutionary performance patterns and general trends. Exhaustive regression testing is usually impractical, because rigorous performance benchmarking requires executing realistic workloads per revision, resulting in large execution times.\\
+We devise a novel active revision sampling approach that aims at tracking and understanding a system’s performance history by approximating the performance behavior of a software system across all of its revisions. In short, we iteratively sample and measure the performance of specific revisions to learn a performance-evolution model. We select revisions based on how uncertainty our models predicts their correspondent performance values. Technically, we use Gaussian Process models that not only estimates performance for each revision, but also provides an uncertainty value alongside. This way, we iteratively improve our model with only few measurements. \\
+Our evaluation with six real-world configurable software system demonstrates that Gaussian Process models are able to accurately estimate the performance-evolution histories with only few measurements and to reveal interesting behaviors and trends, such as change points. 
 \end{abstract}
-\begin{keywords}
-Schlagwort1 \and Schlagwort2 %Keyword1 \and Keyword2
-\end{keywords}
-%%% Beginn des Artikeltexts
-\section{Überschrift/Heading}
+\end{comment}
 
-%%% Angabe der .bib-Datei (ohne Endung) / State .bib file (for BibTeX usage)
-\bibliography{mybibfile} %\printbibliography if you use biblatex/Biber
+\begin{keywords}	
+	Software Performance \and 
+	Software Evolution \and 
+	Test Prioritization
+\end{keywords}
+
+\paragraph{1 Introduction} Throughout a software system‘s development history, its non-functional properties, such as performance, co-evolve alongside. Individual modifications of the code base (\emph{revisions}) or batches thereof can entail changes in performance.
+Unless identified and addressed, detrimental performance changes can result in performance degradation over time. 
+The retrospective analysis of existing histories can unveil causative revisions and, subsequently, help prioritize revisions for future performance regression testing. 
+Assessing all of its revisions would lift the need for a good approximation. Likewise, if we assess performance only for major revisions, such as revisions flagged as milestones or release, we cannot pinpoint observed performance changes to specific revisions, but rather only sections between revisions.
+
+We devise a novel probabilistic \emph{active learning} algorithm to \emph{accurately} learn the performance history of a software system based on measurements of a specific workload with \emph{as few measurements as possible}. Along with performance estimations for any revisions, our prediction model reports an uncertainty measure. Hence, we can decide for each revision whether an estimation is sufficiently reliable or still requires more performance observations. To increase reliability where necessary, the algorithm selects and prioritizes new revisions for performance measurement based on the reported uncertainty.
+
+
+Our evaluation is based on six real-world subject systems from a variety of domains (file compression, scientific computing, image processing). In a prelimimary analysis, we confirm the prevalence of performance change points. Our experiments show that we can approximate performance histories with high accuracy and use them for detecting performance change points with few measurements. 
+
+\paragraph{2 Approach} We use Gaussian Processes (GPs) to model the performance history of a software system and obtain respective estimations. In a nutshell, a GP maps a Gaussian $\mathcal{N}(\mu, \sigma)$ to each possible value on a continuum (here: the version history). Evaluating the GP at any point will estimate the mean performance $\mu$ as well as an uncertainty $\sigma$. Typically, the uncertainty is lower around revisions for which we have already obtained measurements and higher within large measurement gaps. 
+
+\paragraph{Covariance Functions}
+The similarity between any pair of Gaussians for a GP is defined by a covariance function (\emph{kernel}) of which there exists a variety.
+\begin{wrapfigure}{r}{0.5\linewidth}
+	\includegraphics[width=0.99\linewidth]{images/steps_aggregated.pdf}
+	\caption{Active sample selection}
+\end{wrapfigure}
+
+\paragraph{Active Sampling} \blindtext
+
+
+We performed a series of experiments...
+
+\clearpage
+%\bibliography{literature}
+
 \end{document}
